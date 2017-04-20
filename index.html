@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Docker revisited</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="trabe-slide-pack.css">
+  </head>
+  <body>
+
+<textarea data-slide-pack>
+
+-- trabe
+
+# Post-introducción a React
+
+--
+
+# Nuestro affaire con React, 2 años después.
+
+--
+
+Chechú and burrú @ Trabe
+
+--
+
+# Intro a React
+
+* Mencionar la otra charla
+* Librería UI
+* Virtual DOM
+* JSX
+* Componentes
+* props, children
+* Estado
+* Ciclo de vida
+
+<!-- Asumir que se sabe -->
+
+--
+
+"React bien, gracias. ¿Y ahora?"
+
+--
+
+* Contexto. Trabe usa React. Y lo usa en proyectos de verdad y se come los marrones que toquen.
+
+--
+
+Enfoque:
+
+* Problema
+* Qué herramienta nos da React
+* Orden: de sencillo a mind fuck!
+--
+
+
+* Un aviso bien grande de handle with care
+
+--
+
+# Gestión del estado
+
+IDEA: Tagear traspas para indicar de qué tratan. Ciclo de vida, etc.
+
+* Ciclo de vida: willReceiveProps.
+ejemplo: componente que pasa props a su hijo, el hijo tiene estdo y no repinta cuando cambian las poprs
+
+antes -> después willReceiveProps
+
+* Detectar que props importan (defaultValue en componentes no controlados)
+
+--
+
+* Contexto. compartir entre padres y nietos.
+
+Locale de la aplicación
+
+
+HOC -> Inject locale
+
+Suscripciones?
+
+Cambio de locale. Oh wau
+
+--
+
+API Children. Inyección de deps.
+
+Pasar info de padres a hijos sin usar props, porque no conoces tu hijo. 
+
+algo así!
+
+<WithTheme theme="">
+{(fgColor, bgColor) => <MyComponent style={color: fgColor, bac
+
+  })
+           kground: bgColor} />
+
+</WithTheme>
+
+vs sacar el tema para fuera
+
+--
+
+Componentes controlados vs no controlado
+
+
+mini ejemplo de formulario con in input y un submit (alert value)
+
+--
+
+Componentes no controlados
+Romper el flujo de  react. -> UI = f(s) para todo t.
+Imperativo vs declarativo
+
+--
+
+API de refs.
+
+1) Manipular DOM. -> Animaciones. ejemplo de higlighlight
+
+2) Componentes no controlados propios -> 
+   Forzar actualizaciones, etc, de  padres a hijos. Via refs, decirle al comonente que flashea que flashee xD
+   
+   Notificaciones de hijos a padres! -> Reseteable form (api refs para fijar un nuevo value). Contraponer con API de children como alternativa (form inyecta su fiunciójn de reset).
+
+API de refs util para mentalidades imperativas xD
+
+--
+
+
+
+
+
+
+--
+
+* setState y la cola de render. componentDidUpdate
+
+setState({ a : 1 });
+console.log(this.state.a);
+
+
+ejemplo. load que no load!.... mmmmmmmm....mmmmmm.....mmmm.....
+
+* forceRender.
+
+--
+
+* Refs. Integrar librerarías no react. Algo en d3. o Jquery. Ciclo de vida, etc.
+
+--
+
+* Children:
+  * Manipulación de children: estructurar componentes. Magia negra
+
+  <Popup>
+    <Header></Header>
+    <Content></Content>
+    <button>dasdas</button>
+    </button
+  </Popup>
+
+  </MyShit>
+
+  Enfrentearlo a hijos en props
+
+  <Popup header={header} content={content} />
+--
+
+Componentize like a boss:
+
+* shouldComponentUpdate. Optimizar el repintado. Estructuras inmutables.
+
+
+--
+
+Redux connect! LOL!
+our redux-connect
+
+
+
+
+Usos y abusos.
+
+Muchas de estas cosas no se necesitan si se usa un estado global ala Redux
+* Ejemplo el contexto puede ser un foco de problemas -> estado global. ESTADO => UI
+* Manipular children. Rompe la base.
+
+</textarea>
+    <!-- SlidePack markdown compilation & UI goodies -->
+    <script src="slide-pack.js"></script>
+  </body>
+</html>
