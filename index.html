@@ -22,106 +22,375 @@
 
 Chechuuuuuuuuuuuuuuuuuuu and burrú @ Trabe
 
--
-
-# Intro a React
-
-* Mencionar la otra charla
-* Librería UI
-* Virtual DOM
-* JSX
-* Componentes
-* props, children
-* Estado
-* Ciclo de vida
-
-<!-- Asumir que se sabe -->
 
 --
 
-"React bien, gracias. ¿Y ahora?"
-
---
-
-* Contexto. Trabe usa React. Y lo usa en proyectos de verdad y se come los marrones que toquen.
-
---
-
-Enfoque:
-
-* Problema
-* Qué herramienta nos da React
-
---
-
-# Order
-
-From "easy peasy" to "total mind fuck!"
-
-Aquí un gif simpático
+# React itro recap
 
 --
 
 
-* Un aviso bien grande de handle with care
+# UI Library
+
+UI = f(state)
 
 --
 
-About the examples.
+# Virtual DOM
 
-GIF Panda picando código
+Virtual DOM diagram
 
-Repo git + repo storybook
+-- code
 
---
+# JSX
 
-# Gestión del estado
+```
+JSX
+vs
 
-IDEA: Tagear traspas para indicar de qué tratan. Ciclo de vida, etc.
+expansión funcional
+```
 
-* Ciclo de vida: willReceiveProps.
-* Detectar que props importan (defaultValue en componentes no controlados)
+-- code
 
-ejemplo: componente que pasa props a su hijo, el hijo tiene estdo y no repinta cuando cambian las poprs
+# Stateless components
 
+```
+ejemplo, con props y chilrend
+```
 
-antes -> después willReceiveProps
+-- code
 
+# Stateful components
 
-
---
-
-setState Usar función en lugar de objeto
-
-componentDidUpdate en lugar de callback de setState
-
---
-
-* ShouldComponentUpdate!
-
-TODO: Pensar un ejemplo y hacerle
+```
+ejemplo con props children y set state
+```
 
 --
 
-* Contexto. compartir entre padres y nietos.
+# Ciclo de vida
 
-Locale de la aplicación
+la lista ordenada de callbacks
+
+-- code
+
+# Ciclo de vida
+
+```
+Ejemplo. componentDidMount -> state loading -> falsapromesacon un timeout xDthen(loaded false)
+
+```
 
 --
 
-Qué es un HOC (robar ejemplos de los videos de recompose)
+## OK, so... now what?
+
+ ![](assets/lost-kid.gif)
+
+ <!-- Contexto. Trabe usa React. Y lo usa en proyectos de verdad y se come los marrones que toquen.-->
+
+-- problem
+
+# We'll talk about real problems
+
+--
+
+# And see how to solve them with React
+
+-- gotchas
+
+# Be aware of the gotchas
+
+## Handle with care
+
+--
+
+## From "easy peasy"
+ to
+## "total mind fuck!"
+
+![](assets/mind-blown.gif)
+
+--
+
+# Example code
+
+![A panda coded this](assets/panda.gif)
+
+[trabe-teaching/post-intro-react-examples](https://github.com/trabe-teaching/post-intro-react-examples)
+
+--
+
+LOGO de storybook
+
+Using storybook
+
+Screenshot para explicar la barra lateral
+
+(poner en un solo nivel)
+
+
+-- problem
+
+# Fine control the render cycle
+
+-- code
+
+# Optimize render
+
+```
+Ej.
+ shouldComponentUpdate
+```
+
+## Inmutability FTW: Identity check vs deep equality
+
+-- code
+
+# Rerender stateful components on props change
+
+```
+ej.
+willReceiveProps
+```
+
+## Check for relevant properties
+
+
+-- code
+
+# Update state using previous
+
+```
+setState((prevState, props) => ({ counter: prevState.counter + 1 });
+```
+
+-- code
+
+# Ensure state is updated
+
+```
+ej.
+setState({ a : 1 }, () => callback);
+console.log(this.state.a) // who knows;
+
+```
+
+-- code
+
+# Ensure state is updated
+
+```
+ej. como antes pero con componentDidUpdate
+
+```
+
+
+
+
+
+
+
+
+--
+
+![](http://pbs.twimg.com/media/CV-axvvXAAA1TCT.jpg:large)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- problem
+
+# Como se hace un formulario
+
+-- code
+
+# Controlled components
+
+```
+ej.
+```
+
+-- code
+
+# Uncontrolled components & refs API
+
+```
+ej.
+```
+
+--
+
+# When to use refs
+
+1) Manipular DOM. -> Animaciones . ejemplo de higlighlight
+
+2) Componentes no controlados propios ->
+   Forzar actualizaciones, etc, de  padres a hijos. Via refs, decirle al comonente que flashea que flashee xD
+   Notificaciones de hijos a padres! -> Reseteable form (api refs para fijar un nuevo value). 
+
+
+
+
+-- gotcha
+
+
+# rompemos el flujo de react
+Imperativo vs declarativo
+API de refs util para mentalidades imperativas xD
+
+OJO -> Refs a componentes no a nodos DOM (mover para otro lado):
+
+Problema. Wrapping y delegación de refs :(
+
+ej. refs rotas.
+
+
+
+-- problem
+
+# How do I pass props to deep nested components?
+
+-- code
+
+```javascript
+const T = ({ locale, key }) =>
+  <span>{key}-{locale}</span>;
+
+const Layout = ({ locale, children }) => (
+  <div>
+    <h1><T key="app.title"/></h1>
+    {children}
+  </div>
+);
+
+const App = ({ locale }) => (
+  <Layout>
+    <T locale="locale" key="page.title" />
+  </Layout>
+);
+
+<App locale="es" />
+
+```
+
+--
+
+# Context API
+
+-- code
+
+```
+Ejemplo locale
+```
+--
+
+
+--
+
+
+
+
+-- problem
+
+# Extract common concerns
+
+--
+
+HOCs
+
+-- code
+
+Layout de HOC componente fucional
+
+-- code
+
+HOC Clase.
+
+--
+
+Ej. de verdad
+
+--
+
+Recompose
+--
+
+Lista de métods
+
+--
+
+Mini ejemplo
 
 HOC -> Inject locale
 
-Suscripciones?
+-- problem
 
-Cambio de locale. Oh wau
+# How do I detect context changes
+
 
 --
 
-Recompose!
+You can't...
 
-Ejemplo de recompose
+--
+
+Suscripción al contexo. ej.
+Cambio de locale. Oh wau
+
+
+
+--
+
+import { connect } from "react-redux";
+
+Connect. The most famous HOC around
+
+
+--
+
+# Challenge
+
+Code your own Redux
+
+--
+
+Store - State (subscription mechanism)
+Provider - Context Provider
+connect - HOC
+
+ejemplo: poor man redux
+
+
+-- problem
+
+# Inject dependecneies
 
 --
 
@@ -143,59 +412,22 @@ vs sacar el tema para fuera
 
 --
 
-Componentes controlados vs no controlado
-
-
-mini ejemplo de formulario con in input y un submit (alert value)
-
+Contraponer con API de children como alternativa (form inyecta su fiunciójn de reset).
 --
 
-Componentes no controlados
-Romper el flujo de  react. -> UI = f(s) para todo t.
-Imperativo vs declarativo
+Children.clone
 
---
+children function
 
-API de refs.
+-- problem
 
-1) Manipular DOM. -> Animaciones. ejemplo de higlighlight
-
-2) Componentes no controlados propios -> 
-   Forzar actualizaciones, etc, de  padres a hijos. Via refs, decirle al comonente que flashea que flashee xD
-   
-   Notificaciones de hijos a padres! -> Reseteable form (api refs para fijar un nuevo value). Contraponer con API de children como alternativa (form inyecta su fiunciójn de reset).
-
-Problema. Wrapping y delegación de refs :(
-
-API de refs util para mentalidades imperativas xD
-
---
-
-
-
-
-
-
---
-
-* setState y la cola de render. componentDidUpdate
-
-setState({ a : 1 });
-console.log(this.state.a);
-
-
-ejemplo. load que no load!.... mmmmmmmm....mmmmmm.....mmmm.....
-
-* forceRender.
-
---
-
-* Refs. Integrar librerarías no react. Algo en d3. o Jquery. Ciclo de vida, etc.
+# Como hago "layout" components
 
 --
 
 * Children:
   * Manipulación de children: estructurar componentes. Magia negra
+
 
   <Popup>
     <Header></Header>
@@ -205,26 +437,63 @@ ejemplo. load que no load!.... mmmmmmmm....mmmmmm.....mmmm.....
   </Popup>
 
   </MyShit>
+--
 
   Enfrentearlo a hijos en props
 
   <Popup header={header} content={content} />
 --
 
-Componentize like a boss:
 
-* shouldComponentUpdate. Optimizar el repintado. Estructuras inmutables.
+-- problem
 
+# Integrate non react stuff
+
+-- code
+
+# Integrate DOM manipulation
+
+```
+Refs API again
+componentDidMount, componentWillUnmount, ShouldComponentUpdate
+
+```
+
+## jQuery, D3...
 
 --
 
-Redux connect! LOL!
-our redux-connect
 
 
 
 
-Usos y abusos.
+
+
+-- problem
+
+# How do I really Manage my application state
+
+--
+
+Redux! (o mobx)
+
+
+-- problem
+
+# Testing my components
+
+--
+
+Enzyme + Jests (snapshot testing)
+
+--
+
+
+# Parting notes
+
+--
+
+# Use, but not abuse
 
 Muchas de estas cosas no se necesitan si se usa un estado global ala Redux
 * Ejemplo el contexto puede ser un foco de problemas -> estado global. ESTADO => UI
@@ -232,16 +501,28 @@ Muchas de estas cosas no se necesitan si se usa un estado global ala Redux
 
 --
 
-React 15.5
-Deprecation madness
+# Update your react
+
+## React 15.5 (deprecation)
+### Deprecation madness
+## React 16 (Fiber)
+### By bye wrappers.
 
 --
 
-React 16 Fibers
-By bye wrappers.
+Questions?
 
-Gif hip hopper fail!
 --
+
+See ya!
+
+
+
+
+
+
+
+
 
 
 </textarea>

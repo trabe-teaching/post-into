@@ -723,7 +723,7 @@ section {
 }
 
 
-html { font-size: 30pt;  line-height: 2rem;    }
+html { font-size: 16pt;  line-height: 2rem;    }
 h1 { font-size: 2.07rem; line-height: 2.88rem; }
 h2 { font-size: 1.80rem; line-height: 2.88rem; }
 h3 { font-size: 1.2rem;  line-height: 2.4rem;  }
@@ -789,9 +789,11 @@ ol li {
   list-style: none;
 }
 
-.big-bullets li {
-  font-size: 1.44rem;
-  line-height: 2.88rem;
+
+
+section ul li {
+  font-size: 1.2rem;
+  line-height: 2.4rem;
 }
 
 .hljs {
@@ -822,9 +824,9 @@ ol li {
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
   background: #fff;
   opacity: 0.7;
-  width: 100%;
   font-family: "ASM-Regular";
   font-size: 1.2rem;
   line-height: 1.2rem;
@@ -836,9 +838,9 @@ ol li {
   position: absolute;
   bottom: 0;
   left: 0;
+  right: 0;
   background: #fff;
   opacity: 0.7;
-  width: 100%;
   font-family: "ASM-Regular";
   font-size: 1rem;
   line-height: 1rem;
@@ -907,6 +909,13 @@ h2 code {
   color: #fff;
 }
 
+.trabe-black,
+.problem {
+  background: #000;
+  color: #fff;
+}
+
+.gotchas,
 .trabe-red {
   background: #ff3333;
   color: #fff;
@@ -958,21 +967,6 @@ h2 code {
 
 .full-image.no-overlay img {
   opacity: 1;
-}
-
-.troll {
-  position: relative;
-}
-
-.troll > p {
-  display: block;
-  background: #fff;
-  position: absolute;
-  bottom: 0;
-  right: 1rem;
-  bottom: 0px;
-  width: 300px;
-  padding: 2rem;
 }
 
 .hide-last li:last-child {
