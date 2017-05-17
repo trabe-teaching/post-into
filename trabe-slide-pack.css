@@ -723,9 +723,9 @@ section {
 }
 
 
-html { font-size: 16pt;  line-height: 2rem;    }
-h1 { font-size: 2.07rem; line-height: 2.88rem; }
-h2 { font-size: 1.80rem; line-height: 2.88rem; }
+html { font-size: 20pt;  line-height: 2rem;    }
+h1 { font-size: 2rem; line-height: 2.88rem; }
+h2 { font-size: 1.6rem; line-height: 2.88rem; }
 h3 { font-size: 1.2rem;  line-height: 2.4rem;  }
 
 h1 {
@@ -745,11 +745,12 @@ h2 strong {
   color: #ff33cc;
 }
 
-section * + * {
-  /*margin-top: 1.2rem;*/
-}
 
 section h1 + h2 {
+  margin-top: 1rem;
+}
+
+section h1 + h3 {
   margin-top: 1rem;
 }
 
@@ -789,11 +790,9 @@ ol li {
   list-style: none;
 }
 
-
-
 section ul li {
   font-size: 1.2rem;
-  line-height: 2.4rem;
+  line-height: 1.5rem;
 }
 
 .hljs {
@@ -802,18 +801,24 @@ section ul li {
 
 .code {
   background: #23241f;
-  padding-bottom: 0;
+  padding: 2rem 1rem 0rem
 }
 
 .code.small code {
-  font-size: 0.9em;
+  font-size: 0.8rem;
+  line-height: 0.9rem;
+}
+
+.code.very-small code {
+  font-size: 0.7rem;
+  line-height: 0.8rem;
 }
 
 .code pre {
   margin: 0;
   width: 100%;
   height: 100%;
-  padding: 2rem 0;
+  padding: 1rem 0;
 }
 
 .code pre code {
@@ -826,12 +831,12 @@ section ul li {
   left: 0;
   right: 0;
   background: #fff;
-  opacity: 0.7;
+  opacity: 0.8;
   font-family: "ASM-Regular";
-  font-size: 1.2rem;
-  line-height: 1.2rem;
+  font-size: 1rem;
+  line-height: 1rem;
   text-align: left;
-  padding: 1rem 2rem 0.7rem;
+  padding: 0.7rem 1rem 0.5rem;
 }
 
 .code h2 {
@@ -840,12 +845,12 @@ section ul li {
   left: 0;
   right: 0;
   background: #fff;
-  opacity: 0.7;
+  opacity: 0.8;
   font-family: "ASM-Regular";
   font-size: 1rem;
   line-height: 1rem;
   text-align: right;
-  padding: 0.7rem 2rem 0.4rem;
+  padding: 0.5rem 1rem 0.2rem;
   box-sizing: border-box;
 }
 
@@ -901,7 +906,6 @@ h2 code {
 
 .trabe h1 {
   font-family: "ASM-UDBold", sans-serif;
-  font-size: 4rem;
 }
 
 .trabe-green {
@@ -937,11 +941,12 @@ h2 code {
 .full-image {
   background: #000;
   overflow: hidden;
+  text-align: center;
 }
 
 .full-image img {
   z-index: 0;
-  opacity: 0.5;
+  opacity: 0.4;
   min-height: 100%;
   min-width: 1024px;
   width: 100%;
@@ -967,6 +972,11 @@ h2 code {
 
 .full-image.no-overlay img {
   opacity: 1;
+}
+
+.full-image a {
+  color: #fff;
+  background: #000;
 }
 
 .hide-last li:last-child {
@@ -1053,4 +1063,105 @@ code::-webkit-scrollbar,
 pre::-webkit-scrollbar {
   display: none ! important;
   width: 0 ! important;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.dim {
+  opacity: 0.4;
+}
+
+.who {
+  display: flex;
+  flex-direction: row;
+}
+
+.who a {
+  color: #fff;
+}
+
+.who h1 {
+  font-size: 1rem;
+  line-height: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.who .trabe-info {
+  width: 50%;
+  text-align: center;
+}
+
+.who .trabe-people h1 {
+  text-align: left;
+}
+
+.who .trabe-people {
+  width: 50%;
+  text-align: left;
+}
+
+.who img {
+  max-height: 35vh;
+  margin-bottom: 1rem;
+}
+
+.full-inline-image h1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+  color: #fff;
+  font-family: "ASM-Regular";
+  font-size: 1rem;
+  line-height: 1rem;
+  text-align: left;
+  padding: 0.7rem 1rem 0.5rem;
+}
+
+.full-inline-image img {
+  width: 98vw;
+  max-width: 100%;
+}
+
+.kudo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: transparent;
+  opacity: 0.7;
+  font-family: "ASM-Regular";
+  font-size: 0.5rem;
+  line-height: 1rem;
+  text-align: right;
+  padding: 0.4rem 1rem 0.4rem;
+  box-sizing: border-box;
+}
+
+.lifecycle li {
+  font-size: 0.8rem;
+  line-height: 0.9rem;
+  padding: 0.5rem 1rem 0.4rem;
+  background: #f0f0f0;
+  border-bottom: 2px solid #fff;
+  margin-top: 0;
+}
+
+.lifecycle li.act {
+  background: #336da2;
+  color: #fff;
+}
+
+.lifecycle li.dim {
+}
+
+.tech p img {
+  margin: 0 auto;
+}
+
+section li + li {
+  margin-top: 1.2rem;
 }

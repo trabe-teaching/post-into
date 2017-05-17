@@ -12,26 +12,49 @@
 
 -- trabe
 
-# Post-introduction to React
+# Post-introduction
+# to React
 
---
+<span class="hide">Our affaire with React, 2 years later</span>
 
-# Our affaire with React, 2 years later
+-- trabe
 
---
+# Post-introduction
+# to React
 
-David Barral
-david@trabe.io
-@davidbarral
+<span>Our affaire with React, 2 years later</span>
 
-Cecilia García
-ceci@trabe.io
-@cecig2202
+-- trabe who
 
+<div class="trabe-people">
+<h1>David Barral</h1>
+<small>david@trabe.io</small>
+<br/>
+<small>@davidbarral</small>
 
-LOGO de trabe
-https://trabe.io
-@trabe
+<br/>
+<br/>
+<br/>
+
+<h1>Cecilia García</h1>
+<small>ceci@trabe.io</small>
+<br/>
+<small>@cecig2202</small>
+</div>
+
+<div class="trabe-info">
+  ![](assets/trabe-logo.png)
+  <br/>
+  <small>https://trabe.io</small>
+  <br/>
+  <small>@trabe</small>
+</div>
+
+-- full-image
+
+## Sorry about the syntax highlighting
+
+![](assets/fail.gif)
 
 -- trabe-green
 
@@ -42,20 +65,17 @@ https://trabe.io
 
 # UI Library
 
-UI = f(state)
+## UI = f(state)
 
---
+-- full-inline-image
 
 # Virtual DOM
 
-![](assets/virtual-dom.png)
+<img src="assets/virtual-dom.png" style="width: 90vw" />
 
-Virtual DOM diagram
-
-LDING ISOMORPHIC WEB APPLICATIONS
-USING REACT AND NODE
-Created by Donald Whyte
-http://slidedeck.io/DonaldWhyte/isomorphic-react-workshop
+<div class="kudo">
+[Building Isomorphic Web Applications by Donald Whyte](http://slidedeck.io/DonaldWhyte/isomorphic-react-workshop)
+</div>
 
 -- code
 
@@ -73,10 +93,9 @@ render(
   document.getElementById("app")
 );
 ```
-
 -- code
 
-# JSX
+# JSX as functions
 
 ```javascript
 import React from "react";
@@ -109,15 +128,13 @@ const Layout = ({ title, children }) => (
 </Layout>
 ```
 
--- code
+-- code small
 
 # Stateful components
 
 ```javascript
 class Counter extends Component {
-  state = {
-    counter: 0,
-  }
+  state = { counter: 0 }
 
   handleClick = () => {
     this.setState({
@@ -126,7 +143,11 @@ class Counter extends Component {
   }
 
   render() {
-    return <p onClick={this.handleClick}>{this.state.counter} clicks</p>;
+    return (
+      <p onClick={this.handleClick}>
+        {this.state.counter} clicks
+      </p>;
+    );
   }
 }
 
@@ -135,35 +156,88 @@ class Counter extends Component {
 </Layout>
 ```
 
---
+-- lifecycle
 
 # Lifecycle
 
-## Mounting
+<ul>
+  <li>initialState / props /defaultProps</li>
+  <li>componentWillMount</li>
+  <li>componentWillReceiveProps</li>
+  <li>shouldComponentUpdate</li>
+  <li>componentWillUpdate</li>
+  <li>render</li>
+  <li>componentDidUpdate</li>
+  <li>componentDidMount</li>
+  <li>componentWillUnmount</li>
+</ul>
 
-* defaultProps / initialState
-* componentWillMount
-* render
-* componentDidMount
+-- lifecycle
 
-## Updating state
-shouldComponentUpdate
-componentWillUpdate
-render
-componentDidUpdate
+# Mounting
 
-## Updating props
-componentWillReceiveProps
-shouldComponentUpdate
-componentWillUpdate
-render
-componentDidUpdate
+<ul>
+  <li class="act">initialState / props /defaultProps</li>
+  <li class="act">componentWillMount</li>
+  <li class="dim">componentWillReceiveProps</li>
+  <li class="dim">shouldComponentUpdate</li>
+  <li class="dim">componentWillUpdate</li>
+  <li class="act">render</li>
+  <li class="dim">componentDidUpdate</li>
+  <li class="act">componentDidMount</li>
+  <li class="dim">componentWillUnmount</li>
+</ul>
 
-## Unmounting
-componentWillUnmount
+-- lifecycle
+
+# Updating state
+
+<ul>
+  <li class="dim">initialState / props /defaultProps</li>
+  <li class="dim">componentWillMount</li>
+  <li class="dim">componentWillReceiveProps</li>
+  <li class="act">shouldComponentUpdate</li>
+  <li class="act">componentWillUpdate</li>
+  <li class="act">render</li>
+  <li class="act">componentDidUpdate</li>
+  <li class="dim">componentDidMount</li>
+  <li class="dim">componentWillUnmount</li>
+</ul>
+
+-- lifecycle
+
+# Updating props
+
+<ul>
+  <li class="dim">initialState / props /defaultProps</li>
+  <li class="dim">componentWillMount</li>
+  <li class="act">componentWillReceiveProps</li>
+  <li class="act">shouldComponentUpdate</li>
+  <li class="act">componentWillUpdate</li>
+  <li class="act">render</li>
+  <li class="act">componentDidUpdate</li>
+  <li class="dim">componentDidMount</li>
+  <li class="dim">componentWillUnmount</li>
+</ul>
+
+-- lifecycle
+
+# Unmounting
+
+<ul>
+  <li class="dim">initialState / props /defaultProps</li>
+  <li class="dim">componentWillMount</li>
+  <li class="dim">componentWillReceiveProps</li>
+  <li class="dim">shouldComponentUpdate</li>
+  <li class="dim">componentWillUpdate</li>
+  <li class="dim">render</li>
+  <li class="dim">componentDidUpdate</li>
+  <li class="dim">componentDidMount</li>
+  <li class="act">componentWillUnmount</li>
+</ul>
 
 
--- code
+-- code small
 
 # Lifecycle
 
@@ -172,9 +246,7 @@ const fetchData =
   new Promise(resolve => setTimeout(resolve, 1000));
 
 class Data extends Component {
-  state ={
-    loading: true,
-  }
+  state = { loading: true }
 
   componentDidMount() {
     fetchData().then(() => {
@@ -190,7 +262,7 @@ class Data extends Component {
 }
 ```
 
---
+-- full-image
 
 ## OK, so... now what?
 
@@ -200,83 +272,80 @@ class Data extends Component {
 
 -- problem
 
-# We'll talk about real problems
+# We'll talk about
+# real problems
 
 --
 
-# And see how to solve them with React
+# And see how to solve
+# them with React
 
 -- gotchas
 
-# Be aware of the gotchas
+# Gotchas
 
-## Some of this stuff must be handled with care
+### Be aware that some of this stuff
+### must be handled with care
 
---
+-- full-image
 
 ## From "easy peasy"
- to
-## "total mind fuck!"
+## to "total mind fuck!"
 
 ![](assets/mind-blown.gif)
 
---
+-- full-image
 
-# Example code
+## Example code
+
+[https://github.ciom/trabe-teaching/post-intro-react-examples](https://github.com/trabe-teaching/post-intro-react-examples)
 
 ![A panda coded this](assets/panda.gif)
 
-[trabe-teaching/post-intro-react-examples](https://github.com/trabe-teaching/post-intro-react-examples)
+-- tech
 
---
+<img src="assets/storybook.png" width="400px" />
 
-# ES2017
+<small>https://storybooks.js.org</small>
 
---
+<br />
+<img src="assets/babel.jpg" width="200px" />
 
-LOGO de storybook
-
-Using storybook
-
-Screenshot para explicar la barra lateral
-
-(poner en un solo nivel)
+<small>https://babeljs.io/docs/plugins/preset-es2017</small>
 
 
 -- problem
 
 # Fine control the render cycle
 
--- code
+-- code small
 
 # Optimize render
 
 ```javascript
-const List = ({ itemData }) => (
+const List = ({ items }) => (
   <ul>
-    { itemData.map(data => <Item data={data} /> }
+    {items.map(item => <Item item={item} />)}
   </ul>
 );
 
 class Item extends Component {
-
-  shouldComponentUpdate(nextProps, _nextState) {
-    return nextProps !== this.props;
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.item !== this.props.item;
   }
 
   render() {
-    return <li>{this.props.data}</li>;
+    return <li>{this.props.item}</li>;
   }
 }
 
 ```
 
+-- code small
 
--- code
+# Render stateful component on props change
 
-# Rerender stateful components on props change
-
-```
+```javascript
 class Counter extends Component {
   state = {
     counter: this.props.initial,
@@ -300,9 +369,9 @@ class Counter extends Component {
 
 * Check for relevant properties
 * Identity check vs deep equality
-* Inmutability FTW
+* Inmutability FTW!
 
--- code
+-- code small
 
 # Use the updated state
 
@@ -325,7 +394,7 @@ class Counter extends Component {
 }
 ```
 
--- code
+-- code small
 
 # Use the updated state
 
@@ -353,7 +422,7 @@ class Counter extends Component {
 }
 ```
 
--- code
+-- code small
 
 # Use the updated state
 
@@ -376,14 +445,13 @@ class Counter extends Component {
 
 -- gotchas
 
-# setState
-
+* setState batching
+* setState and lifecycle
 * componentDidUpdate handles both props and state change
-
 
 -- full-image
 
-# It's gonna be ok
+## It's going to be ok
 
 ![](assets/gonna-be-ok.gif)
 
@@ -392,7 +460,7 @@ class Counter extends Component {
 
 # Forms
 
--- code
+-- code very-small
 
 # Controlled components
 
@@ -411,16 +479,19 @@ class ControlledForm extends Component {
   render() {
     return (
       <form>
-        <input type="text" value={this.state.value}
-               onChange={this.handleChange} />
-        <button onClick={this.handleSubmit}>Submit!</button>
+        <input
+          type="text"
+          value={this.state.value}
+          onChange={this.handleChange}
+        />
+        <button onClick={this.handleSubmit}>Submit</button>
       </form>
     );
   }
 }
 ```
 
--- code
+-- code small
 
 # Uncontrolled components & refs API
 
@@ -435,7 +506,11 @@ const UncontrolledForm = () => {
 
   return (
     <form>
-      <input ref={i => input = i} type="text" defaultValue="5" />
+      <input
+        ref={i => input = i}
+        type="text"
+        defaultValue="5"
+      />
       <button onClick={handleSubmit}>Submit!</button>
     </form>
   );
@@ -448,13 +523,16 @@ const UncontrolledForm = () => {
 
 * Forms for performance reasons
 * DOM manipulation, e.g. animations
-* Non-React stuff integrations (more on that, later)
-* Access custom componentes API
+* Access custom componentes API  
+* Non-React stuff integrations
+
+<small>more on this later, stay tuned!</small>
 
 -- gotchas
 
-* Not the React way (imperative mindset vs declarative)
-* Ref to react node vs DOM node
+* Not the React way  
+  <small>(imperative vs declarative)</small>
+* Ref to node: React vs DOM
 * Wrapping: ref delegation
 
 -- code
@@ -462,7 +540,7 @@ const UncontrolledForm = () => {
 # Broken ref
 
 ```javascript
-class A extends Component => {
+class A extends Component {
   apiMethod() { /* ... */ }
 }
 
@@ -474,10 +552,10 @@ a.apiMethod(); // broken ref
 ```
 
 -- code
-# Ref delegation
+# Explicit ref delegation
 
 ```javascript
-class A extends Component => {
+class A extends Component {
   apiMethod() { /* ... */ }
 }
 
@@ -485,15 +563,16 @@ const B = () => <A ref={this.aRef} />;
 
 let a;
 <B aRef={r => b = r} />;
-a.apiMethod() // delegates to A.apiMethod
+a.apiMethod(); // delegates to A.apiMethod
 ```
 
 
--- code
-# Ref delegation
+-- code small
+
+# Transparent ref delegation
 
 ```javascript
-class A extends Component => {
+class A extends Component {
   apiMethod() { /* ... */ }
 }
 
@@ -509,21 +588,24 @@ class B extends Component {
 
 let b;
 <B ref={r => b = r} />;
-b.apiMethod() // delegates to A.apiMethod
+b.apiMethod(); // delegates to A.apiMethod
 ```
 
 -- full-image
 
-# It's really gonna be ok
+## It really is
+## going to be ok
 
 ![](assets/really-gonna-be-ok.gif)
 
 
 -- problem
 
-# How do I pass props to deep nested components?
+# Passing props
+# to deep nested
+# components
 
--- code
+-- code small
 
 # Flowing props
 
@@ -538,7 +620,7 @@ const App = ({ locale }) => <Content locale={locale} />;
 <App locale="es" />
 ```
 
--- code
+-- code small
 
 # Context API
 
@@ -569,21 +651,21 @@ class App extends Component {
 -- gotchas
 
 * Experimental API
-* Keep it minimu. Extract as a reusable concern to minimize deprecation problems
+* Extract as a reusable concern to<br/>minimize deprecation impact
 
 
 -- problem
 
-# Extract common concerns
+# Refactor common concerns
 
 --
 
-# HOCs
+# HOC
 
 ## High Order Component
 ## f(Component) => Component'
 
--- code
+-- code small
 
 # HOC recipe
 
@@ -605,7 +687,7 @@ const EnhacedComponent = hoc(config)(MyComponent);
 <EnhacedComponent prop1="1" prop2="2" />
 ```
 
--- code
+-- code small
 
 # HOC recipe
 
@@ -613,7 +695,7 @@ const EnhacedComponent = hoc(config)(MyComponent);
 const hoc = configuration => WrappedComponent =>
   const Wrapper extends Component {
     componentWillReceiveProps() {
-      // ...
+      // Do some trick
     }
 
     render() {
@@ -629,7 +711,8 @@ const EnhacedComponent = hoc(config)(MyComponent);
 <EnhacedComponent prop1="1" prop2="2" />
 ```
 
--- code
+-- code small
+
 # Locale HOC
 
 ```javascript
@@ -650,11 +733,39 @@ T = withLocale(T);
 
 ```
 
+-- code small
+
+# Redux connect
+
+```javascript
+import { connect } from "react-redux";
+
+const Counter = ({ count, onClick }) =>
+  <p onClick={onClick}>{counter} clicks</p>;
+
+const ConnectedCounter = connect(
+  state => ({
+    count: state.count,
+  })
+  dispatch => ({
+    onClick: () => dispatch(incrementCount()),
+  })
+)(Counter)
+
+<ConnectedCounter />
+
+```
+## World's most famous HOC
+
+
 --
 
-# Recompose
+# Recompose
 
-Recompose Logo
+* A React utility belt for function components and higher-order components
+
+
+https://github.com/acdlite/recompose
 
 --
 
