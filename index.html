@@ -764,14 +764,9 @@ const ConnectedCounter = connect(
 
 * A React utility belt for function components and higher-order components
 
-
 https://github.com/acdlite/recompose
 
---
-
-# Recompose
-
-Lista de método
+-- two-columns
 
 * compose
 * withState
@@ -786,11 +781,11 @@ Lista de método
 * onlyUpdateForKeys
 * ...
 
--- code
+-- code small
 
 # Locale HOC with recompose
 
-```
+```javascript
 const withLocale = compose(
   wrapDisplayName("withLocale"),
   getContext({ locale: PropTypes.string }),
@@ -801,12 +796,25 @@ T = withLocale(T);
 
 ```
 
--- code
+-- code small
 
-# Component refactoring
+# Recompose Counter
 
-```
-Counter example qith withState y witHandlers
+```javascript
+const Counter = ({ counter, onClick }) => (
+  <p onClick={this.handleClick}>
+    {counter} clicks
+  </p>
+);
+
+compose(
+  withState("counter", "setCounter", 0),
+  withHandlers({
+    onClick: ({ setCounter }) => event => {
+      setCounter(n => n + 1);
+    },
+  })
+)(Counter);
 ```
 
 -- problem
@@ -820,12 +828,87 @@ Counter example qith withState y witHandlers
 
 MEME DE FAIL O WAT THE FUCK
 
--- code
+-- code very-small
 
-# Subscribe to changes
+# Subscribe to changes (1)
+
+```javascript
+class LocaleProvider extends Component {
+
+  static childContextTypes = {
+    locale: PropTypes.string,
+    subscribe: PropTypes.func,
+  };
+
+  state = {
+    locale: this.props.locale,
+  }
+
+  componentWillReceiveProps({ locale }) {
+    this.setState({ locale });
+  }
+
+  componentDidUpdate() {
+    this.listeners.forEach(
+      listener => listener(this.state.locale)
+    );
+  }
 
 ```
-Locale changes subscription
+
+-- code very-small
+
+# Subscribe to changes (2)
+
+``` javascript
+  getChildContext() {
+    return {
+      locale: this.state.locale,
+      subscribe: listener => {
+        this.listeners = [...(this.listeners || []), listener];
+        return () => {
+          this.listeners =
+            this.listeners.filter(l => l !== listener);
+        }
+      }
+    };
+  }
+
+  render() {
+    return Children.only(this.props.children);
+  }
+}
+```
+
+-- code very-small
+
+# Subscribe to changes (3)
+
+```javascript
+const withLocale = WrappedComponent => {
+  class Wrapper extends Component {
+    state = { locale: this.context.locale }
+
+    componentDidMount() {
+      this.unsubscribe = this.context.subscribe(locale => {
+        this.setState({ locale });
+      });
+    }
+
+    componeWillUnmount() { this.unsubscribe(); }
+
+    render() {
+      return <WrappedComponent
+         locale={this.state.locale} {...this.props} />;
+    }
+  };
+
+  Wrapper.contextTypes = LocaleProvider.childContextTypes;
+  Wrapper.displayName =
+   `withLocale(${WrappedComponent.displayName})`;
+
+  return Wrapper;
+};
 ```
 
 --
@@ -852,12 +935,33 @@ IMAGE de patting
 # Pass dependencies
 # to children
 
--- code
+-- code very-small
 
-# Children.clone
+# React.Children & React.cloneElement
 
 ```javascript
-render Childre.map c => Children.clone (props acdioianles)
+import React, { Children } from "react";
+
+class WithTheme extends Component {
+  // ...
+
+  render() {
+    const themeStyle = {
+      color: this.state.theme.fgColor,
+      background: this.state.theme.bgColor,
+    };
+
+    const themifiedChildren = Children.map(this.props.children,
+      child => React.cloneElement(child, { themeStyle }));
+
+    return <div>{themifiedChildren}</div>;
+  }
+}
+
+<WithTheme theme="inverse">
+  <Component1 />
+  <Component2 />
+</WithTheme>
 ```
 
 -- gotchas
@@ -866,25 +970,46 @@ render Childre.map c => Children.clone (props acdioianles)
   <small>overcome with nasty deep search with refs</small>
 * Use context instead, or use ...
 
--- code
+-- code very-small
 
 # Children as a function
 
 ```javascript
-<WithTheme theme="">
-  {(fgColor, bgColor) => (
-    <MyComponent2>
-      <MyComponent style={color: fgColor, background: bgColor} />
-    </MyComponent2>
+class WithTheme extends Component {
+  // ...
+
+  render() {
+    const themeStyle = {
+      color: this.state.theme.fgColor,
+      background: this.state.theme.bgColor,
+    };
+
+    return (
+      <div>
+        {this.props.children(themeStyle)}
+      </div>
+    );
+  }
+}
+
+<WithTheme theme="inverse">
+  {themeStyle => (
+    <Component1 style={themeStyle}>
+      <Component2 style={themeStyle} />
+    </Component1>
   )}
 </WithTheme>
 ```
 
 --
 
-# Children API
+# React.Children API
 
-* List methods
+* map
+* forEach
+* count
+* only
+* toArray
 
 -- code
 
@@ -930,13 +1055,28 @@ const content = (
 # Integrate
 # non react stuff
 
--- code
+-- code small
 
 # Integrate DOM manipulation
 
-```
-Refs API again
-componentDidMount, componentWillUnmount, ShouldComponentUpdate
+```javascript
+class Graph extends Component {
+  shouldComponentUpdate() { return false; }
+
+  componentDidMount() {
+    // D3 Magic!
+    const graph = d3.select(this.container)
+      .data(this.props.data).call(pieChart);
+  }
+
+  componentWillUnmount() {
+    d3.select(this.container).remove();
+  }
+
+  render() {
+    return <div ref={d => this.container = d } />;
+  }
+}
 
 ```
 
@@ -950,33 +1090,48 @@ MEME de thumbs up o victoria or the like
 
 -- problem
 
-# How do I really Manage my application state
+# How do I really manage my application state
 
 --
 
-# Redux!
+<img src="assets/redux.png" width="400px" />
 
-Redux logo y web.
+http://redux.js.org/
 
-(o mobx)
-mobx logo y web
+
+<img src="assets/mobx.png" width="120px" />
+
+https://mobx.js.org/
 
 -- problem
 
-# Testing my components
+# Testing components
 
 --
 
-Enzyme + Jests (snapshot testing)
+<img src="assets/jest.png" width="200px" />
 
-Logo y url
+https://facebook.github.io/jest/
 
--- code
+## Enzyme
+
+http://airbnb.io/enzyme/
+
+-- code small
 
 # Snapshot testing
 
-```
- expect(render(X)).toMatchSnapshot()
+```javascript
+import React from "react";
+import { render } from "enzyme";
+import Icon from "components/icon";
+
+describe("<Icon/>", () => {
+  it("renders", () => {
+    const wrapper = render(<Icon name="chevron-right" />);
+    expect(wrapper).toMatchSnapshot();
+  });
+});
 ```
 
 -- trabe-green
@@ -994,7 +1149,7 @@ Logo y url
 
 --
 
-# Update your react
+# Update your React
 
 ## React 15.5
 ### Deprecation madness
