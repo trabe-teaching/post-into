@@ -16,16 +16,26 @@
 
 --
 
-# Nuestro affaire con React, 2 años después.
+# Our affaire with React, 2 years later
 
 --
 
-Chechuuuuuuuuuuuuuuuuuuu and burrú @ Trabe
+David Barral
+david@trabe.io
+@davidbarral
+
+Cecilia García
+ceci@trabe.io
+@cecig2202
 
 
---
+LOGO de trabe
+https://trabe.io
+@trabe
 
-# React itro recap
+-- trabe-green
+
+# React intro recap
 
 --
 
@@ -38,48 +48,146 @@ UI = f(state)
 
 # Virtual DOM
 
+![](assets/virtual-dom.png)
+
 Virtual DOM diagram
+
+LDING ISOMORPHIC WEB APPLICATIONS
+USING REACT AND NODE
+Created by Donald Whyte
+http://slidedeck.io/DonaldWhyte/isomorphic-react-workshop
 
 -- code
 
 # JSX
 
-```
-JSX
-vs
+```javascript
+import React from "react";
+import { render } from "react-dom";
 
-expansión funcional
+const HelloWorld = () =>
+  <p>Hello world!</p>;
+
+render(
+  <HelloWorld/>,
+  document.getElementById("app")
+);
+```
+
+-- code
+
+# JSX
+
+```javascript
+import React from "react";
+import { render } from "react-dom";
+
+const HelloWorld = () =>
+  React.DOM.p(null, "Hello world!");
+
+render(
+  React.createElement(HelloWorld),
+  document.getElementById("app")
+);
 ```
 
 -- code
 
 # Stateless components
 
-```
-ejemplo, con props y chilrend
+```javascript
+const Layout = ({ title, children }) => (
+  <div>
+    <h1>{title}</h1>
+    {children}
+  </div>
+);
+
+
+<Layout title="MyApp">
+  <p>Ola ke ase</p>
+</Layout>
 ```
 
 -- code
 
 # Stateful components
 
-```
-ejemplo con props children y set state
+```javascript
+class Counter extends Component {
+  state = {
+    counter: 0,
+  }
+
+  handleClick = () => {
+    this.setState({
+      counter: this.state.counter + 1,
+    });
+  }
+
+  render() {
+    return <p onClick={this.handleClick}>{this.state.counter} clicks</p>;
+  }
+}
+
+<Layout title="MyApp">
+  <Counter />
+</Layout>
 ```
 
 --
 
-# Ciclo de vida
+# Lifecycle
 
-la lista ordenada de callbacks
+## Mounting
+
+* defaultProps / initialState
+* componentWillMount
+* render
+* componentDidMount
+
+## Updating state
+shouldComponentUpdate
+componentWillUpdate
+render
+componentDidUpdate
+
+## Updating props
+componentWillReceiveProps
+shouldComponentUpdate
+componentWillUpdate
+render
+componentDidUpdate
+
+## Unmounting
+componentWillUnmount
+
 
 -- code
 
-# Ciclo de vida
+# Lifecycle
 
-```
-Ejemplo. componentDidMount -> state loading -> falsapromesacon un timeout xDthen(loaded false)
+```javascript
+const fetchData =
+  new Promise(resolve => setTimeout(resolve, 1000));
 
+class Data extends Component {
+  state ={
+    loading: true,
+  }
+
+  componentDidMount() {
+    fetchData().then(() => {
+      this.setState({ loading: false });
+    });
+  }
+
+  render() {
+    return this.state.loading
+      ? <p>Loading...</p>
+      : <p>Loaded</p>;
+  }
+}
 ```
 
 --
@@ -102,7 +210,7 @@ Ejemplo. componentDidMount -> state loading -> falsapromesacon un timeout xDthen
 
 # Be aware of the gotchas
 
-## Handle with care
+## Some of this stuff must be handled with care
 
 --
 
@@ -119,6 +227,10 @@ Ejemplo. componentDidMount -> state loading -> falsapromesacon un timeout xDthen
 ![A panda coded this](assets/panda.gif)
 
 [trabe-teaching/post-intro-react-examples](https://github.com/trabe-teaching/post-intro-react-examples)
+
+--
+
+# ES2017
 
 --
 
@@ -139,52 +251,453 @@ Screenshot para explicar la barra lateral
 
 # Optimize render
 
-```
-Ej.
- shouldComponentUpdate
+```javascript
+const List = ({ itemData }) => (
+  <ul>
+    { itemData.map(data => <Item data={data} /> }
+  </ul>
+);
+
+class Item extends Component {
+
+  shouldComponentUpdate(nextProps, _nextState) {
+    return nextProps !== this.props;
+  }
+
+  render() {
+    return <li>{this.props.data}</li>;
+  }
+}
+
 ```
 
-## Inmutability FTW: Identity check vs deep equality
 
 -- code
 
 # Rerender stateful components on props change
 
 ```
-ej.
-willReceiveProps
+class Counter extends Component {
+  state = {
+    counter: this.props.initial,
+  }
+
+  handleClick = () => { /* state.counter += 1 */ }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.initial !== this.props.initial) {
+      this.setState({
+        counter: nextProps.initial,
+      });
+    }
+  }
+
+  render() { /* ... */ }
+}
 ```
 
-## Check for relevant properties
+-- gotchas
 
+* Check for relevant properties
+* Identity check vs deep equality
+* Inmutability FTW
 
 -- code
 
-# Update state using previous
+# Use the updated state
 
-```
-setState((prevState, props) => ({ counter: prevState.counter + 1 });
+```javascript
+class Counter extends Component {
+
+  // handleClick = () => {
+  //   this.setState({
+  //     counter: this.state.counter + 1,
+  //   });
+  // }
+
+  handleClick = () => {
+    this.setState((prevState, props) => ({
+      counter: prevState.counter + 1,
+    }));
+  }
+
+  render() { /* ... */ }
+}
 ```
 
 -- code
 
-# Ensure state is updated
+# Use the updated state
+
+```javascript
+class Counter extends Component {
+
+  // handleClick = () => {
+  //   this.setState({
+  //     counter: this.state.counter + 1,
+  //   }),
+  //   () => {
+  //     console.log("New counter", this.counter);
+  //   });
+
+  handleClick = () => {
+    this.setState((prevState, props) => ({
+      counter: prevState.counter + 1,
+    })),
+    () => {
+      console.log("New counter", this.state.counter);
+    });
+  }
+
+  render() { /* ... */ }
+}
+```
+
+-- code
+
+# Use the updated state
+
+```javascript
+class Counter extends Component {
+
+  handleClick = () => {
+    this.setState((prevState, props) => ({
+      counter: prevState.counter + 1,
+    }));
+  }
+
+  componentDidUpdate(prevPros, prevState) {
+    console.log("New counter", this.state.counter);
+  }
+
+  render() { /* ... */ }
+}
+```
+
+-- gotchas
+
+# setState
+
+* componentDidUpdate handles both props and state change
+
+
+-- full-image
+
+# It's gonna be ok
+
+![](assets/gonna-be-ok.gif)
+
+
+-- problem
+
+# Forms
+
+-- code
+
+# Controlled components
+
+```javascript
+class ControlledForm extends Component {
+  state = { value: 5 };
+
+  handleChange = event =>
+   this.setState({ value: event.target.value });
+
+  handleSubmit = event => {
+    event.preventDefault();
+    alert(this.state.value);
+  }
+
+  render() {
+    return (
+      <form>
+        <input type="text" value={this.state.value}
+               onChange={this.handleChange} />
+        <button onClick={this.handleSubmit}>Submit!</button>
+      </form>
+    );
+  }
+}
+```
+
+-- code
+
+# Uncontrolled components & refs API
+
+```javascript
+const UncontrolledForm = () => {
+  let input;
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    alert(input.value);
+  }
+
+  return (
+    <form>
+      <input ref={i => input = i} type="text" defaultValue="5" />
+      <button onClick={handleSubmit}>Submit!</button>
+    </form>
+  );
+}
+```
+
+--
+
+# When to use refs
+
+* Forms for performance reasons
+* DOM manipulation, e.g. animations
+* Non-React stuff integrations (more on that, later)
+* Access custom componentes API
+
+-- gotchas
+
+* Not the React way (imperative mindset vs declarative)
+* Ref to react node vs DOM node
+* Wrapping: ref delegation
+
+-- code
+
+# Broken ref
+
+```javascript
+class A extends Component => {
+  apiMethod() { /* ... */ }
+}
+
+const B = () => <A />;
+
+let a;
+<B ref={r => a = r} />;
+a.apiMethod(); // broken ref
+```
+
+-- code
+# Ref delegation
+
+```javascript
+class A extends Component => {
+  apiMethod() { /* ... */ }
+}
+
+const B = () => <A ref={this.aRef} />;
+
+let a;
+<B aRef={r => b = r} />;
+a.apiMethod() // delegates to A.apiMethod
+```
+
+
+-- code
+# Ref delegation
+
+```javascript
+class A extends Component => {
+  apiMethod() { /* ... */ }
+}
+
+class B extends Component {
+  apiMethod() {
+    this.a.apiMethod();
+  }
+
+  render() {
+    return <A ref={r => this.a = r } />
+  }
+}
+
+let b;
+<B ref={r => b = r} />;
+b.apiMethod() // delegates to A.apiMethod
+```
+
+-- full-image
+
+# It's really gonna be ok
+
+![](assets/really-gonna-be-ok.gif)
+
+
+-- problem
+
+# How do I pass props to deep nested components?
+
+-- code
+
+# Flowing props
+
+```javascript
+const T = ({ locale, key }) => `${key}.${locale}`;
+
+const Content = ({ locale }) =>
+  <h1><T locale={locale} key="app.title"/></h1>;
+
+const App = ({ locale }) => <Content locale={locale} />;
+
+<App locale="es" />
+```
+
+-- code
+
+# Context API
+
+```javascript
+const T = ({ key }, { locale }) => `${key}.${locale}`;
+T.contextTypes = { locale: PropTypes.string }
+
+const Content = () => <h1><T key="app.title"/></h1>;
+
+class App extends Component {
+  static childContextTypes = {
+    locale: PropTypes.string,
+  };
+
+  getChildContext() {
+    return { locale: this.props.locale };
+  }
+
+  render() {
+    return <Content />;
+  }
+);
+
+<App locale="es" />
+```
+
+
+-- gotchas
+
+* Experimental API
+* Keep it minimu. Extract as a reusable concern to minimize deprecation problems
+
+
+-- problem
+
+# Extract common concerns
+
+--
+
+# HOCs
+
+## High Order Component
+## f(Component) => Component'
+
+-- code
+
+# HOC recipe
+
+```javascript
+const hoc = configuration => WrappedComponent =>
+  (props) => {
+    const enhacedProps = {
+      ...process(configuration),
+      ...props,
+    };
+
+    return (
+      <WrappedComponentComponent {...enhacedProps} />
+    );
+  };
+
+const EnhacedComponent = hoc(config)(MyComponent);
+
+<EnhacedComponent prop1="1" prop2="2" />
+```
+
+-- code
+
+# HOC recipe
+
+```javascript
+const hoc = configuration => WrappedComponent =>
+  const Wrapper extends Component {
+    componentWillReceiveProps() {
+      // ...
+    }
+
+    render() {
+      <Component {...this.props} {...additionalProps} />;
+    }
+  };
+
+  return Wrapper;
+};
+
+const EnhacedComponent = hoc(config)(MyComponent);
+
+<EnhacedComponent prop1="1" prop2="2" />
+```
+
+-- code
+# Locale HOC
+
+```javascript
+const withLocale = WrappedComponent => {
+  const Wrapper = (props, { locale }) =>
+    <WrappedComponent locale={locale} {...props} />;
+
+  Wrapper.contextTypes = { locale: PropTypes.string }
+  Wrapper.displayName =
+   `withLocale(${WrappedComponent.displayName})`;
+
+  return Wrapper;
+};
+
+
+let T = ({ key }, { locale }) => `${key}.${locale}`;
+T = withLocale(T);
 
 ```
-ej.
-setState({ a : 1 }, () => callback);
-console.log(this.state.a) // who knows;
+
+--
+
+# Recompose
+
+Recompose Logo
+
+--
+
+# Recompose
+
+Lista de método
+
+* compose
+* withState
+* lifecycle
+* withProps
+* mapProps
+* branch
+* withContext
+* wrapDisplayName
+* pure
+* shouldUpdate
+* onlyUpdateForKeys
+* ...
+
+-- code
+
+# Locale HOC with recompose
+
+```
+const withLocale = compose(
+  wrapDisplayName("withLocale"),
+  getContext({ locale: PropTypes.string }),
+);
+
+let T = ({ key }, { locale }) => `${key}.${locale}`;
+T = withLocale(T);
 
 ```
 
 -- code
 
-# Ensure state is updated
+# Component refactoring
 
 ```
-ej. como antes pero con componentDidUpdate
-
+Counter example qith withState y witHandlers
 ```
+
 
 
 
@@ -225,130 +738,12 @@ ej. como antes pero con componentDidUpdate
 
 
 
--- problem
-
-# Como se hace un formulario
-
--- code
-
-# Controlled components
-
-```
-ej.
-```
-
--- code
-
-# Uncontrolled components & refs API
-
-```
-ej.
-```
-
---
-
-# When to use refs
-
-1) Manipular DOM. -> Animaciones . ejemplo de higlighlight
-
-2) Componentes no controlados propios ->
-   Forzar actualizaciones, etc, de  padres a hijos. Via refs, decirle al comonente que flashea que flashee xD
-   Notificaciones de hijos a padres! -> Reseteable form (api refs para fijar un nuevo value). 
 
 
 
 
--- gotcha
 
 
-# rompemos el flujo de react
-Imperativo vs declarativo
-API de refs util para mentalidades imperativas xD
-
-OJO -> Refs a componentes no a nodos DOM (mover para otro lado):
-
-Problema. Wrapping y delegación de refs :(
-
-ej. refs rotas.
-
-
-
--- problem
-
-# How do I pass props to deep nested components?
-
--- code
-
-```javascript
-const T = ({ locale, key }) =>
-  <span>{key}-{locale}</span>;
-
-const Layout = ({ locale, children }) => (
-  <div>
-    <h1><T key="app.title"/></h1>
-    {children}
-  </div>
-);
-
-const App = ({ locale }) => (
-  <Layout>
-    <T locale="locale" key="page.title" />
-  </Layout>
-);
-
-<App locale="es" />
-
-```
-
---
-
-# Context API
-
--- code
-
-```
-Ejemplo locale
-```
---
-
-
---
-
-
-
-
--- problem
-
-# Extract common concerns
-
---
-
-HOCs
-
--- code
-
-Layout de HOC componente fucional
-
--- code
-
-HOC Clase.
-
---
-
-Ej. de verdad
-
---
-
-Recompose
---
-
-Lista de métods
-
---
-
-Mini ejemplo
-
-HOC -> Inject locale
 
 -- problem
 
