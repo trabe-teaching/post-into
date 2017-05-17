@@ -809,151 +809,126 @@ T = withLocale(T);
 Counter example qith withState y witHandlers
 ```
 
-
-
-
-
-
-
-
-
---
-
-![](http://pbs.twimg.com/media/CV-axvvXAAA1TCT.jpg:large)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 -- problem
 
 # How do I detect context changes
 
 
---
+-- full-image
 
-You can't...
+## You can't...
 
---
+MEME DE FAIL O WAT THE FUCK
 
-Suscripción al contexo. ej.
-Cambio de locale. Oh wau
+-- code
 
+# Subscribe to changes
 
-
---
-
-import { connect } from "react-redux";
-
-Connect. The most famous HOC around
-
+```
+Locale changes subscription
+```
 
 --
 
-# Challenge
+# Challenge!
 
-Code your own Redux
+## Code your own Redux
 
---
+<br/>
 
-Store - State (subscription mechanism)
-Provider - Context Provider
-connect - HOC
+* Store - subscribe to changes
+* Provider - Context
+* connect - HOC
 
-ejemplo: poor man redux
+-- full-image
 
+## Please, believe us!
+## It's going to be ok
+
+IMAGE de patting
 
 -- problem
 
-# Inject dependecneies
+# Pass dependencies
+# to children
 
---
+-- code
 
-API Children. Inyección de deps.
+# Children.clone
 
-Pasar info de padres a hijos sin usar props, porque no conoces tu hijo.
+```javascript
+render Childre.map c => Children.clone (props acdioianles)
+```
 
-algo así!
+-- gotchas
 
+* Only direct children  
+  <small>overcome with nasty deep search with refs</small>
+* Use context instead, or use ...
+
+-- code
+
+# Children as a function
+
+```javascript
 <WithTheme theme="">
-{(fgColor, bgColor) => <MyComponent style={color: fgColor, bac
-
-  })
-           kground: bgColor} />
-
+  {(fgColor, bgColor) => (
+    <MyComponent2>
+      <MyComponent style={color: fgColor, background: bgColor} />
+    </MyComponent2>
+  )}
 </WithTheme>
-
-vs sacar el tema para fuera
+```
 
 --
 
-Contraponer con API de children como alternativa (form inyecta su fiunciójn de reset).
---
+# Children API
 
-Children.clone
+* List methods
 
-children function
+-- code
+
+# Rearrage children under the hood
+
+```javascript
+<Popup>
+  <Header>
+    The header
+  </Header>
+  <Content>
+    The content
+  </Content>
+</Popup>
+```
+
+-- gotchas
+
+## So much magic wowness
+
+-- code
+
+# Prefer the React way
+
+```
+const header = (
+  <Header>
+    The header
+  </Header>
+);
+
+const content = (
+  <Content>
+    The content
+  </Content>
+);
+
+<Popup header={header} content={content} />
+```
 
 -- problem
 
-# Como hago "layout" components
-
---
-
-* Children:
-  * Manipulación de children: estructurar componentes. Magia negra
-
-
-  <Popup>
-    <Header></Header>
-    <Content></Content>
-    <button>dasdas</button>
-    </button
-  </Popup>
-
-  </MyShit>
---
-
-  Enfrentearlo a hijos en props
-
-  <Popup header={header} content={content} />
---
-
-
--- problem
-
-# Integrate non react stuff
+# Integrate
+# non react stuff
 
 -- code
 
@@ -967,13 +942,11 @@ componentDidMount, componentWillUnmount, ShouldComponentUpdate
 
 ## jQuery, D3...
 
---
+-- full-image
 
+## Finally It's gonna be ok.
 
-
-
-
-
+MEME de thumbs up o victoria or the like
 
 -- problem
 
@@ -981,8 +954,12 @@ componentDidMount, componentWillUnmount, ShouldComponentUpdate
 
 --
 
-Redux! (o mobx)
+# Redux!
 
+Redux logo y web.
+
+(o mobx)
+mobx logo y web
 
 -- problem
 
@@ -992,43 +969,47 @@ Redux! (o mobx)
 
 Enzyme + Jests (snapshot testing)
 
---
+Logo y url
 
+-- code
+
+# Snapshot testing
+
+```
+ expect(render(X)).toMatchSnapshot()
+```
+
+-- trabe-green
 
 # Parting notes
 
 --
 
-# Use, but not abuse
+# Use but not abuse
 
-Muchas de estas cosas no se necesitan si se usa un estado global ala Redux
-* Ejemplo el contexto puede ser un foco de problemas -> estado global. ESTADO => UI
-* Manipular children. Rompe la base.
+* Prefer stateless components
+* Fully embrace Redux to make some of this technics irrelevant
+* Beware of experimetal APIs
+* Stick to the React way
 
 --
 
 # Update your react
 
-## React 15.5 (deprecation)
+## React 15.5
 ### Deprecation madness
 ## React 16 (Fiber)
 ### By bye wrappers.
 
---
+-- trabe
 
-Questions?
+# Questions?
 
---
+-- full-image
 
-See ya!
+## See ya!
 
-
-
-
-
-
-
-
+Best meme ever!
 
 
 </textarea>
