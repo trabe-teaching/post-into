@@ -538,35 +538,36 @@ const UncontrolledForm = () => {
 * Ref to node: React vs DOM
 * Wrapping: ref delegation
 
--- code
+-- code small
 
 # Broken ref
 
 ```javascript
-class A extends Component {
+class WrappedComponent extends Component {
   apiMethod() { /* ... */ }
 }
 
-const B = () => <A />;
+const Wrapper = () => <WrappedComponent />;
 
-let a;
-<B ref={r => a = r} />;
-a.apiMethod(); // broken ref
+let component;
+<Wrapper ref={r => component = r} />;
+component.apiMethod(); // broken ref
 ```
 
--- code
+-- code small
 # Explicit ref delegation
 
 ```javascript
-class A extends Component {
+class WrappedComponent extends Component {
   apiMethod() { /* ... */ }
 }
 
-const B = () => <A ref={this.aRef} />;
+const Wrapper = ({ componentRef }) =>
+  <WrappedComponent ref={componentRef} />;
 
-let a;
-<B aRef={r => b = r} />;
-a.apiMethod(); // delegates to A.apiMethod
+let component;
+<Wrapper componentRef={r => component = r} />;
+component.apiMethod();
 ```
 
 
@@ -575,23 +576,25 @@ a.apiMethod(); // delegates to A.apiMethod
 # Transparent ref delegation
 
 ```javascript
-class A extends Component {
+class WrappedComponent extends Component {
   apiMethod() { /* ... */ }
 }
 
-class B extends Component {
+class Wrapper extends Component {
   apiMethod() {
-    this.a.apiMethod();
+    this.component.apiMethod();
   }
 
   render() {
-    return <A ref={r => this.a = r } />
+    return (
+      <WrappedComponent ref={r => this.component = r } />
+    );
   }
 }
 
-let b;
-<B ref={r => b = r} />;
-b.apiMethod(); // delegates to A.apiMethod
+let wrapper;
+<Wrapper ref={r => wrapper = r} />;
+wrapper.apiMethod();
 ```
 
 -- full-image
@@ -615,10 +618,14 @@ b.apiMethod(); // delegates to A.apiMethod
 ```javascript
 const T = ({ locale, key }) => `${key}.${locale}`;
 
-const Content = ({ locale }) =>
-  <h1><T locale={locale} key="app.title"/></h1>;
+const Content = ({ locale }) => (
+  <h1>
+    <T locale={locale} key="app.title"/>
+  </h1>
+);
 
-const App = ({ locale }) => <Content locale={locale} />;
+const App = ({ locale }) =>
+  <Content locale={locale} />;
 
 <App locale="es" />
 ```
@@ -702,7 +709,7 @@ const hoc = configuration => WrappedComponent =>
     }
 
     render() {
-      <WrappedComponent {...enhacedProps } />;
+      <WrappedComponent {...enhacedProps} />;
     }
   };
 
@@ -811,7 +818,9 @@ compose(
 
 ```javascript
 const withLocale = WrappedComponent => {
-  const displayName = wrapDisplayName(WrappedComponent, "withLocale");
+
+  const displayName =
+    wrapDisplayName(WrappedComponent, "withLocale");
 
   return compose(
     getContext({ locale: PropTypes.string }),
