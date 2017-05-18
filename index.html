@@ -407,7 +407,7 @@ class Counter extends Component {
   // handleClick = () => {
   //   this.setState({
   //     counter: this.state.counter + 1,
-  //   }),
+  //   },
   //   () => {
   //     console.log("New counter", this.counter);
   //   });
@@ -415,7 +415,7 @@ class Counter extends Component {
   handleClick = () => {
     this.setState((prevState, props) => ({
       counter: prevState.counter + 1,
-    })),
+    }),
     () => {
       console.log("New counter", this.state.counter);
     });
@@ -738,7 +738,7 @@ const withLocale = WrappedComponent => {
 };
 
 
-let T = ({ key }, { locale }) => `${key}.${locale}`;
+let T = ({ key, locale }) => `${key}.${locale}`;
 T = withLocale(T);
 
 ```
