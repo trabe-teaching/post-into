@@ -776,8 +776,8 @@ https://github.com/acdlite/recompose
 * branch
 * withContext
 * wrapDisplayName
-* pure
 * shouldUpdate
+* pure
 * onlyUpdateForKeys
 * ...
 
@@ -791,7 +791,7 @@ const withLocale = compose(
   getContext({ locale: PropTypes.string }),
 );
 
-let T = ({ key }, { locale }) => `${key}.${locale}`;
+let T = ({ key, locale }) => `${key}.${locale}`;
 T = withLocale(T);
 
 ```
@@ -819,14 +819,13 @@ compose(
 
 -- problem
 
-# How do I detect context changes
-
+# Detect context changes
 
 -- full-image
 
 ## You can't...
 
-MEME DE FAIL O WAT THE FUCK
+![](assets/epic-fail.gif)
 
 -- code very-small
 
@@ -928,7 +927,7 @@ const withLocale = WrappedComponent => {
 ## Please, believe us!
 ## It's going to be ok
 
-IMAGE de patting
+![](assets/bellieve-gonna-be-ok.gif);
 
 -- problem
 
@@ -1086,11 +1085,11 @@ class Graph extends Component {
 
 ## Finally It's gonna be ok.
 
-MEME de thumbs up o victoria or the like
+![](assets/finally-gonna-be-ok.gif)
 
 -- problem
 
-# How do I really manage my application state
+# Managing state
 
 --
 
@@ -1162,9 +1161,9 @@ describe("<Icon/>", () => {
 
 -- full-image
 
-## See ya!
+## See ya!
 
-Best meme ever!
+![](assets/bye.gif)
 
 
 </textarea>
