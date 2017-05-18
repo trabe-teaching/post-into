@@ -122,10 +122,14 @@ const Layout = ({ title, children }) => (
   </div>
 );
 
-
 <Layout title="MyApp">
   <p>Ola ke ase</p>
 </Layout>
+
+<div>
+  <h1>MyApp</h1>
+  <p>Ola ke ase</p>
+</div>
 ```
 
 -- code small
@@ -146,7 +150,7 @@ class Counter extends Component {
     return (
       <p onClick={this.handleClick}>
         {this.state.counter} clicks
-      </p>;
+      </p>
     );
   }
 }
@@ -242,14 +246,12 @@ class Counter extends Component {
 # Lifecycle
 
 ```javascript
-const fetchData =
-  new Promise(resolve => setTimeout(resolve, 1000));
-
 class Data extends Component {
+
   state = { loading: true }
 
   componentDidMount() {
-    fetchData().then(() => {
+    fetch("/data").then(() => {
       this.setState({ loading: false });
     });
   }
@@ -316,7 +318,8 @@ class Data extends Component {
 
 -- problem
 
-# Fine control the render cycle
+# Fine control the
+# render cycle
 
 -- code small
 
@@ -373,7 +376,7 @@ class Counter extends Component {
 
 -- code small
 
-# Use the updated state
+# Handle state batching
 
 ```javascript
 class Counter extends Component {
@@ -396,7 +399,7 @@ class Counter extends Component {
 
 -- code small
 
-# Use the updated state
+# Handle state batching
 
 ```javascript
 class Counter extends Component {
@@ -424,7 +427,7 @@ class Counter extends Component {
 
 -- code small
 
-# Use the updated state
+# Handle state batching
 
 ```javascript
 class Counter extends Component {
@@ -671,14 +674,14 @@ class App extends Component {
 
 ```javascript
 const hoc = configuration => WrappedComponent =>
-  (props) => {
+  props => {
     const enhacedProps = {
-      ...process(configuration),
+      ...process(configuration, props),
       ...props,
     };
 
     return (
-      <WrappedComponentComponent {...enhacedProps} />
+      <WrappedComponent {...enhacedProps} />
     );
   };
 
@@ -699,7 +702,7 @@ const hoc = configuration => WrappedComponent =>
     }
 
     render() {
-      <Component {...this.props} {...additionalProps} />;
+      <WrappedComponent {...enhacedProps } />;
     }
   };
 
@@ -783,26 +786,11 @@ https://github.com/acdlite/recompose
 
 -- code small
 
-# Locale HOC with recompose
-
-```javascript
-const withLocale = compose(
-  wrapDisplayName("withLocale"),
-  getContext({ locale: PropTypes.string }),
-);
-
-let T = ({ key, locale }) => `${key}.${locale}`;
-T = withLocale(T);
-
-```
-
--- code small
-
 # Recompose Counter
 
 ```javascript
 const Counter = ({ counter, onClick }) => (
-  <p onClick={this.handleClick}>
+  <p onClick={onClick}>
     {counter} clicks
   </p>
 );
@@ -815,6 +803,26 @@ compose(
     },
   })
 )(Counter);
+```
+
+-- code small
+
+# Locale HOC with recompose
+
+```javascript
+const withLocale = WrappedComponent => {
+  const displayName = wrapDisplayName(WrappedComponent, "withLocale");
+
+  return compose(
+    getContext({ locale: PropTypes.string }),
+    setDisplayName(displayName),
+  )(WrappedComponent);
+);
+
+let T = ({ key, locale }) => `${key}.${locale}`;
+
+T = withLocale(T);
+
 ```
 
 -- problem
@@ -848,7 +856,7 @@ class LocaleProvider extends Component {
   }
 
   componentDidUpdate() {
-    this.listeners.forEach(
+    (this.listeners || []).forEach(
       listener => listener(this.state.locale)
     );
   }
@@ -867,7 +875,7 @@ class LocaleProvider extends Component {
         this.listeners = [...(this.listeners || []), listener];
         return () => {
           this.listeners =
-            this.listeners.filter(l => l !== listener);
+            this.listeners.filter(li => li !== listener);
         }
       }
     };
@@ -1012,7 +1020,7 @@ class WithTheme extends Component {
 
 -- code
 
-# Rearrage children under the hood
+# Rearrange children under the hood
 
 ```javascript
 <Popup>
@@ -1153,7 +1161,7 @@ describe("<Icon/>", () => {
 ## React 15.5
 ### Deprecation madness
 ## React 16 (Fiber)
-### By bye wrappers.
+### Bye bye wrappers.
 
 -- trabe
 
